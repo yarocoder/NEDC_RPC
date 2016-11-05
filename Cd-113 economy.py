@@ -1,13 +1,5 @@
-
-# coding: utf-8
-
-# In[217]:
-
 #Author: Tyler Bailey
-#Will add a .py file as well later
-
-
-# In[218]:
+#Editors: Yaro Kaminskiy
 
 #README
 #This is a simple script that takes into account the high neutron capture economy of Cd-113
@@ -19,15 +11,9 @@
 #Cd-113 has an abundance of 12.23 at%
 #For now we want the metal to have > 10.00 at% Cd-113; This is arbitrary
 
-
-# In[219]:
-
 import numpy as np
 get_ipython().magic('matplotlib inline')
 import matplotlib.pyplot as plt
-
-
-# In[220]:
 
 #The majority of this data was extracted from https://www-nds.iaea.org/exfor/endf.htm 
 #Units are CGS
@@ -40,18 +26,11 @@ sigma_112 = 10 * 10**-24
 sigma_113 = 10**5 * 10**-24
 flux = 10**9
 
-
-# In[226]:
-
 #This only computes and prints our start amount of Cd-113 and our end amount of Cd-113 
 print('starting amount of Cd 113')
 print(cd_113)
 print('10% of Cd 113')
 print(atoms_per_volume*.1)
-
-
-# In[222]:
-
 
 def main(cd_112, cd_113, t=10**8):
     '''
@@ -73,13 +52,6 @@ def main(cd_112, cd_113, t=10**8):
     y = cd_113 + x
     return z, y
 
-
-
-    
-
-
-# In[223]:
-
 #graph preparation. Time from t=0s to t=.5*10^11s with time interval 10**8s
 cd_112_lst = []
 cd_113_lst = []
@@ -91,10 +63,7 @@ i = 10**8
 while i <= .05*10**11:
     time.append(i)
     i+=10**8
-
-
-# In[224]:
-
+    
 #more graph preparation
 i = 0
 while i < len(time)-1:
@@ -102,9 +71,6 @@ while i < len(time)-1:
     cd_112_lst.append(cd_112)
     cd_113_lst.append(cd_113)
     i+=1
-
-
-# In[233]:
 
 #graph. The intersection is an estimated lifetime
 horizontal = []
