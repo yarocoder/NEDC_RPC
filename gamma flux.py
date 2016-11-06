@@ -1,8 +1,3 @@
-
-# coding: utf-8
-
-# In[64]:
-
 # Author: Yaro Kaminskiy
 
 # This code calculates the gamma current coming out of a sheet of boron reacting with incident neutrons to produce Li-7 in
@@ -47,6 +42,8 @@ def gamma(t):
     # Return the gammas produced per unit volume of the material at the given input time.
     return rho_knot * sigma * omega_knot * exp(-sigma * omega_knot * t)
 
+# Print relevant info.
+
 print("The gamma production density at the start of the experiment is", str(gamma(0)), "gammas/s/cm^3.")
 print("The gamma production density in 415 million years is", str(gamma(int(1.31e16))/1e6), "gammas/s/cm^3.")
 
@@ -77,9 +74,3 @@ plt.xlabel('Time(s)', fontsize=30)
 plt.legend(loc=(0.2,0.2))
 
 plt.show()
-
-
-# In[ ]:
-
-
-
