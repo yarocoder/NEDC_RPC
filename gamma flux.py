@@ -56,7 +56,7 @@ def gamma(t):
     # is the number of nuclei undergoing the reaction in the sample and -dN/dt is the negative of the time derivative of the number of
     # nuclei (assuming 1 nucleus is consumed per nuclear reaction), and rho is N/volume. We divide both sides by volume and solve the
     # resulting differential equation. The result is the number of gammas produced per unit time per unit volume of the boron slab
-    # (in other words
+    # (in other words the gamma flux density).
     return rho_knot * sigma * omega_knot * exp(-sigma * omega_knot * t)
 
 
@@ -64,13 +64,13 @@ def gamma(t):
 gamma_array = []
 time_array = range(1,int(1.5e16),int(1e13))
 
-# Create an array with a constant gamma count of 10/s/cm^2 for the lower bound of activity/cm^3.
+# Create an array with a constant gamma count of 10 gammas/s/cm^3 for the lower bound of activity/cm^3.
 null_rad = []
 
 # Fill the gamma flux density value array.
 for i in range(1,int(1.5e16),int(1e13)):
     # Append each new gamma flux density value to the end of the array, gradually building it.
-    gamma_array.append(gamma(i)/1e6)
+    gamma_array.append(gamma(i))
     
 # Fill the lower bound array.    
 for i in range(1,int(1.5e16),int(1e13)):
@@ -81,7 +81,7 @@ for i in range(1,int(1.5e16),int(1e13)):
 # Print relevant info on th start of the experiment.
 print("The gamma production density at the start of the experiment is", str(gamma(0)), "gammas/s/cm^3.")
 
-# The particular time indicated is used because it is the time at which the gamma flux nearly reaches the value of 10/s/cm^2, considered
+# The particular time indicated is used because it is the time at which the gamma flux nearly reaches the value of 10/s/cm^3, considered
 # the 'null' value of gamma flux because it is so low. 
 print("The gamma production density in 415 million years is", str( gamma( int(1.31e16) ) ), "gammas/s/cm^3.")
 
