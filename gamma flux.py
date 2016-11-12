@@ -61,19 +61,22 @@ def gamma(t):
 
 
 # Initialize the array for gamma flux density for plotting purposes, as well as a time array.
+inital_val = int(3e8)
+increm_val = int(1e5)
+
 gamma_array = []
-time_array = range(1,int(1.5e16),int(1e13))
+time_array = range(1,inital_val,increm_val)
 
 # Create an array with a constant gamma count of 10 gammas/s/cm^3 for the lower bound of activity/cm^3.
 null_rad = []
 
 # Fill the gamma flux density value array.
-for i in range(1,int(1.5e16),int(1e13)):
+for i in range(1,inital_val,increm_val):
     # Append each new gamma flux density value to the end of the array, gradually building it.
     gamma_array.append(gamma(i))
     
 # Fill the lower bound array.    
-for i in range(1,int(1.5e16),int(1e13)):
+for i in range(1,inital_val,increm_val):
     # Append each new 'null' gamma flux density value to the end of the array, gradually building it. Note that the value is the same
     # for every entry in the array.
     null_rad.append(int(10))
@@ -83,7 +86,7 @@ print("The gamma production density at the start of the experiment is", str(gamm
 
 # The particular time indicated is used because it is the time at which the gamma flux nearly reaches the value of 10/s/cm^3, considered
 # the 'null' value of gamma flux because it is so low. 
-print("The gamma production density in 415 million years is", str( gamma( int(1.31e16) ) ), "gammas/s/cm^3.")
+print("The gamma production density in 9.25 years is", str( gamma( int(2.9182e8) ) ), "gammas/s/cm^3.")
 
 '''
 Plot the gamma production density as a function of time.
