@@ -1,8 +1,7 @@
 # Author: Yaro Kaminskiy
 
-# This code calculates the gamma current coming out of a sheet of boron reacting with incident neutrons to produce Li-7 in
-# an excited state. That excited state has a 42 femtosecond half-life, so the decay can be assumed instant after the
-# formation of Li-7.
+# This code calculates the gamma flux density coming out of a sheet of boron reacting with incident neutrons to produce Li-7 in
+# an excited state. That excited state has a 42 femtosecond half-life, so the decay can be assumed instant after the formation of Li-7.
 
 # Import the number pi and the functions exp and plot from their respective libraries.
 from math import pi, exp
@@ -29,15 +28,14 @@ sigma = 3.60069e-21          # [cm^2], cross-section for B-10(n,a)Li-7 reaction 
 
 # Define a function to calculate the gammas current produced per unit volume of the boron slab (gammas produced/(cm^3*s)) as a
 # function of time.
-
 def gamma(t):
     '''
     Calculate the initial B-10 nuclei density (# of initial B-10 nucei/volume of material).
     '''
     
-    # The formula used falls out of dimensional analysis ( [# B-10 nuclei/mol B-10] * [mass nat. boron/volume] *
-    # [mass B-10/mass nat. boron] / [mass B-10/mol B-10] = [# B-10 nuclei/volume]). The equation below calls values from the definitions
-    # section of the code above. Assume the slab is entirely natural, elemental boron.
+    # The formula used falls out of dimensional analysis ( [# B-10 nuclei/mol B-10] * [mass nat. boron/volume] * [mass B-10/mass nat. boron]
+    # / [mass B-10/mol B-10] = [# B-10 nuclei/volume]). The equation below calls values from the definitions section of the code above.
+    # Assume the slab is entirely natural, elemental boron.
     rho_knot = Na*rho*x / M
     
     '''
@@ -51,7 +49,7 @@ def gamma(t):
     omega_knot = I / (4 * pi * r * r)
     
     '''
-    Return the gammas produced per unit volume of the material at the given input time. 
+    Return the gammas produced per unit volume of the material at the given input time, or the gamma flux density.
     '''
     
     # The formula below is derived from the equation for reaction rate, R = rho * I * sigma, by recognizing that R = -dN/dt, in which N
@@ -61,34 +59,54 @@ def gamma(t):
     # (in other words
     return rho_knot * sigma * omega_knot * exp(-sigma * omega_knot * t)
 
-# Print relevant info.
-print("The gamma production density at the start of the experiment is", str(gamma(0)), "gammas/s/cm^3.")
-print("The gamma production density in 415 million years is", str( gamma( int(1.31e16) ) ), "gammas/s/cm^3.")
 
-# Initialize the array for gamma ray production density for plotting purposes, as well as a
-# time array and blank line array.
+# Initialize the array for gamma flux density for plotting purposes, as well as a time array.
 gamma_array = []
 time_array = range(1,int(1.5e16),int(1e13))
 
 # Create an array with a constant gamma count of 10/s/cm^2 for the lower bound of activity/cm^3.
 null_rad = []
 
-# Fill the gamma production density value array.
+# Fill the gamma flux density value array.
 for i in range(1,int(1.5e16),int(1e13)):
+    # Append each new gamma flux density value to the end of the array, gradually building it.
     gamma_array.append(gamma(i)/1e6)
     
 # Fill the lower bound array.    
 for i in range(1,int(1.5e16),int(1e13)):
+    # Append each new 'null' gamma flux density value to the end of the array, gradually building it. Note that the value is the same
+    # for every entry in the array.
     null_rad.append(int(10))
-    
-# Plot the gamma production density as a function of time.
 
+# Print relevant info on th start of the experiment.
+print("The gamma production density at the start of the experiment is", str(gamma(0)), "gammas/s/cm^3.")
+
+# The particular time indicated is used because it is the time at which the gamma flux nearly reaches the value of 10/s/cm^2, considered
+# the 'null' value of gamma flux because it is so low. 
+print("The gamma production density in 415 million years is", str( gamma( int(1.31e16) ) ), "gammas/s/cm^3.")
+
+'''
+Plot the gamma production density as a function of time.
+'''
+
+# Create a new figure window for plotting the graph.
 plt.figure()
-plt.loglog(time_array, gamma_array, 'b-', label='Gamma activity density (1/s/cm^3)')
+
+# Plot the gamma flux density as a function of time on a log-log plot. The label will appear in the plot legend.
+plt.loglog(time_array, gamma_array, 'b-', label='Gamma flux density (1/s/cm^3)')
+
+# Plot the 'null' gamma flux density as a function of time on the same log-log plot. The label will appear in the plot legend.
 plt.loglog(time_array, null_rad, 'r--', label='Lower bound activity')
+
+# Add the title of the plot in a reasonably sized font.
 plt.title('Gamma Production Current Density in Natural Boron Over Time', fontsize=40)
+
+# Add the y-axis and x-axis labels in a reasonably sized font to the plot.
 plt.ylabel('Gamma Production Current Density (1/s/cm^3)', fontsize=30)
 plt.xlabel('Time(s)', fontsize=30)
+
+# Add the legend to the plot with a convenient location specified so the both gamma flux density curves can be seen in their entirety.
 plt.legend(loc=(0.2,0.2))
 
+# Show the created plot.
 plt.show()
