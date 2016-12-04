@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 # Import the numpy library.
 import numpy as np
 
-# Definitions                # Units, Brief Descriptor. All units are in the CGS (centimeters-gram-second) unit system.
+'''
+Definitions            		 # Units, Brief Descriptor. All units are in the CGS (centimeters-gram-second) unit system.
+'''
 
 # Info given by Dr. Lee Bernstein.
 I = 10e9                     # [# neutrons from source per second]=[no 'real' units], approx. top neutron current (HFNG)
@@ -25,6 +27,41 @@ M = 10.012936992             # [mass B-10/mol B-10]=[g/mol]=[u], molar mass of B
 
 # Obtained using ENDF website: http://www.nndc.bnl.gov/exfor/endf00.jsp
 sigma = 3.60069e-21          # [cm^2], cross-section for B-10(n,a)Li-7 reaction at the thermal energy peak at approximately 0.0253 eV.
+
+# Obtained using WolframAlpha.com
+ironDen = 7.874				 # [g/cm^3], density of natural iron
+polyDen = 0.95				 # [g/cm^3], density of polyethylene
+leadDen = 11.34				 # [g/cm^3], density of lead
+ferricOxideDen = 5.26		 # [g/cm^3], density of iron (III) oxide (ferric oxide)
+ferrousOxideDen = 5.7		 # [g/cm^3], density of iron (II) oxide (ferrous oxide)
+limestoneDen = 2.93			 # [g/cm^3], density of limestone (calcium carbonate)
+stainlessSteelDen = 7.9		 # [g/cm^3], density of stainless steel (assume mean value)
+
+# Derived from molar and atomic masses by taking the atomic masses of each individual element, multiplying by the number of atoms of that
+# element in a molecule of that compound, and dividing by the molar mass of the compound available on WolframAlpha.com
+wtFracArrayFerricOxide = [0.6994176, 0.3005711]
+wtFracArrayFerrousOxide = [0.7773092, 0.2226964]
+wtFracArrayLimestone = [0.4004196, 0.119999, 0.4795504]
+
+# Values for the weight fractions of steel assumed as 89.5% iron, 10.5% chromium, and an insignificant amount of carbon ( <1% ) based off of
+# the definition of stainless steel and carbon content information available on https://en.wikipedia.org/wiki/Stainless_steel
+wtFracArrayStainlessSteel = [0.895, 0.105]
+
+# Obtained using the NIST X-Ray Mass Attenuation Coefficients database: https://www.nist.gov/pml/x-ray-mass-attenuation-coefficients
+attenCoeffPoly = 9.947e-02		 # [cm^2/g], mass attenuation coefficient for polyethylene
+attenCoeffLead = 1.614e-01		 # [cm^s/g], mass attenuation coefficient for natural lead
+attenCoeffIron = 8.414e-02		 # [cm^2/g], mass attenuation coefficient for natural iron
+attenCoeffOxygen = 8.729e-02	 # [cm^s/g], mass attenuation coefficient for natural oxygen
+attenCoeffCalcium = 8.851e-02	 # [cm^s/g], mass attenuation coefficient for natural calcium
+attenCoeffCarbon = 8.715e-02	 # [cm^s/g], mass attenuation coefficient for natural carbon
+attenCoeffChromium = 8.281e-02	 # [cm^s/g], mass attenuation coefficient for natural chromium
+
+# Define mass attenuation arrays for the compounds of interest, to be inputed into an overall mass attenuation coefficient function later in
+# the script.
+attenArrayFerricOxide = [attenCoeffIron, attenCoeffOxygen]
+attenArrayFerrousOxide = [attenCoeffIron, attenCoeffOxygen]
+attenArrayLimestone = [attenCoeffCalcium, attenCoeffCarbon, attenCoeffOxygen]
+attenArrayStainlessSteel = [attenCoeffIron, attenCoeffChromium]
 
 # Define a function to calculate the gammas current produced per unit volume of the boron slab (gammas produced/(cm^3*s)) as a
 # function of time.
@@ -59,34 +96,94 @@ def gamma(t):
     # (in other words the gamma flux density).
     return rho_knot * sigma * omega_knot * exp(-sigma * omega_knot * t)
 
+# Define a function to calculate the secondary gamma ray flux per unit volume of the boron slab attenuated in a gamma absorbing material slab
+# placed to be just directly touching the surface of the boric acid.
+def gammaAtten(attenCoeff, dens, x):
 
-# Initialize the array for gamma flux density for plotting purposes, as well as a time array.
-inital_val = int(3e8)
+	# Return the value of the gamma flux. Formula developed from one given from http://physics.nist.gov/PhysRefData/XrayMassCoef/chap2.html
+	return gamma(0) * ( 1 - exp(-attenCoeff * dens * x) ) # x in cm
+
+# Calculate the percentage of gamma ray flux attenuated in a material as a function of the mass attenuation coefficient, depth in the
+# material and the time since the start of the experiment.
+def gammaAttenPercent(attenCoeff, dens, x, t):
+
+	# Divide the gamma flux attenuation by the original gamma flux.
+	return gammaAtten(attenCoeff, dens, x) / gamma(t)	# x in cm, t in seconds
+
+
+# Iterate through the arrays of mass attenuation coefficient and weight fraction material property arrays to calculate the mass attenuation
+# coefficient (for the secondary gamma rays emitted for the B-10 isotope) for compounds and mixtures at a certain depth in the material.
+def attenCoeffOverall(attenArray, wtFracArray):
+
+	# Initialize a value for the mass attenuation coefficient of a compound or mixture.
+	massAttenCoeff = 0
+
+	# Iterate through each material property array to calculate the mass attenuation coefficient for the compound or mixture of interest.
+	for i in np.arange(0, len(attenArray)):
+
+		# Add the weighted mass attenuation coefficient of an element or component in the compound or mixture to the previous overall
+		# mass attenuation coefficient. Formula obtained from http://physics.nist.gov/PhysRefData/XrayMassCoef/chap2.html
+		massAttenCoeff = massAttenCoeff + wtFracArray[i] * attenArray[i]
+
+	# Return the overall mass attenuation coefficient.
+	return massAttenCoeff
+
+# Set the values to end at and the incremental value for the gamma flux density, time, and lower bound arrays.
+final_val = int(3e8)
 increm_val = int(1e5)
 
+# Initialize the array for gamma flux density for plotting purposes, as well as a time array.
 gamma_array = []
-time_array = range(1,inital_val,increm_val)
+time_array = np.arange(1, final_val, increm_val)
 
 # Create an array with a constant gamma count of 10 gammas/s/cm^3 for the lower bound of activity/cm^3.
 null_rad = []
-
-# Fill the gamma flux density value array.
-for i in range(1,inital_val,increm_val):
+# Fill the gamma flux density value and lower bound array.
+for i in np.arange(1, final_val, increm_val):
     # Append each new gamma flux density value to the end of the array, gradually building it.
     gamma_array.append(gamma(i))
-    
-# Fill the lower bound array.    
-for i in range(1,inital_val,increm_val):
+
     # Append each new 'null' gamma flux density value to the end of the array, gradually building it. Note that the value is the same
     # for every entry in the array.
     null_rad.append(int(10))
 
-# Print relevant info on th start of the experiment.
+# Create arrays for the gamma flux percentages of the relevant materials to be analyzed.
+poly_array = []
+lead_array = []
+ferric_oxide_array = []
+ferrous_oxide_array = []
+limestone_array = []
+stainless_steel_array = []
+
+# Create an array for the depth values in a slab of a particular material.
+x_array = np.arange(0, 1.001, 0.001)
+
+# Calculate the mass attenuation coefficients for the relevant compounds.
+attenCoeffFerricOxide = attenCoeffOverall(attenArrayFerricOxide, wtFracArrayFerricOxide)
+attenCoeffFerrousOxide = attenCoeffOverall(attenArrayFerrousOxide, wtFracArrayFerrousOxide)
+attenCoeffLimestone = attenCoeffOverall(attenArrayLimestone, wtFracArrayLimestone)
+attenCoeffStainlessSteel = attenCoeffOverall(attenArrayStainlessSteel, wtFracArrayStainlessSteel)
+
+for i in np.arange(0, 1.001, 0.001):
+	poly_array.append( gammaAttenPercent(attenCoeffPoly, polyDen, i, 0) )
+	lead_array.append( gammaAttenPercent(attenCoeffLead, leadDen, i, 0) )
+	ferric_oxide_array.append( gammaAttenPercent(attenCoeffFerricOxide, ferricOxideDen, i, 0) )
+	ferrous_oxide_array.append( gammaAttenPercent(attenCoeffFerrousOxide, ferrousOxideDen, i, 0) )
+	limestone_array.append( gammaAttenPercent(attenCoeffLimestone, limestoneDen, i, 0) )
+	stainless_steel_array.append( gammaAttenPercent(attenCoeffStainlessSteel, stainlessSteelDen, i, 0) )
+
+
+# Print relevant info on the start of the experiment.
 print("The gamma production density at the start of the experiment is", str(gamma(0)), "gammas/s/cm^3.")
 
 # The particular time indicated is used because it is the time at which the gamma flux nearly reaches the value of 10/s/cm^3, considered
 # the 'null' value of gamma flux because it is so low. 
 print("The gamma production density in 9.25 years is", str( gamma( int(2.9182e8) ) ), "gammas/s/cm^3.")
+
+# Print the gamma flux percentage of the original gamma flux remaining at 5 mm in the gamma absorbing material at the start of the experiment.
+print( 'The gamma flux percentage of the original gamma flux remaining at 5 mm in natural iron is', gammaAttenPercent(attenCoeffIron, ironDen, 0.5, 0) )
+print( 'The gamma flux percentage of the original gamma flux remaining at 5 mm in polyethylene is', gammaAttenPercent(attenCoeffPoly, polyDen, 0.5, 0) )
+print( 'The gamma flux percentage of the original gamma flux remaining at 5 mm in lead is', gammaAttenPercent(attenCoeffLead, leadDen, 0.5, 0) )
 
 '''
 Plot the gamma production density as a function of time.
@@ -105,11 +202,33 @@ plt.loglog(time_array, null_rad, 'r--', label='Lower bound activity')
 plt.title('Gamma Production Current Density in Natural Boron Over Time', fontsize=40)
 
 # Add the y-axis and x-axis labels in a reasonably sized font to the plot.
-plt.ylabel('Gamma Production Current Density (1/s/cm^3)', fontsize=30)
 plt.xlabel('Time(s)', fontsize=30)
+plt.ylabel('Gamma Production Current Density (1/s/cm^3)', fontsize=30)
 
 # Add the legend to the plot with a convenient location specified so the both gamma flux density curves can be seen in their entirety.
 plt.legend(loc=(0.2,0.2))
 
 # Show the created plot.
+plt.show()
+
+'''
+Plot the gamma flux attenuation percentage for different materials at the start of the experiment as functions of the depth within the material.
+'''
+
+plt.figure()
+
+plt.plot(x_array, poly_array, 'g-', label = 'Polyethylene')
+plt.plot(x_array, lead_array, 'r--', label = 'Lead')
+plt.plot(x_array, ferric_oxide_array, 'c-.', label = 'Ferric oxide')
+plt.plot(x_array, ferrous_oxide_array, 'm:', label = 'Ferrous oxide')
+plt.plot(x_array, limestone_array, 'y', label = 'Limestone')
+plt.plot(x_array, stainless_steel_array, 'b', label = 'Stainless steel')
+
+plt.title('478 keV Gamma Flux Attenuation')
+
+plt.xlabel('Depth in material [cm]')
+plt.ylabel('Gamma flux attenuation percent [%]')
+
+plt.legend(loc = (0,0.6))
+
 plt.show()
