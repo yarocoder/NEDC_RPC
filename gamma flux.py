@@ -156,7 +156,7 @@ limestone_array = []
 stainless_steel_array = []
 
 # Create an array for the depth values in a slab of a particular material.
-x_array = np.arange(0, 1.501, 0.001)
+x_array = np.arange(0, 1.001, 0.001)
 
 # Calculate the mass attenuation coefficients for the relevant compounds.
 attenCoeffFerricOxide = attenCoeffOverall(attenArrayFerricOxide, wtFracArrayFerricOxide)
@@ -164,7 +164,7 @@ attenCoeffFerrousOxide = attenCoeffOverall(attenArrayFerrousOxide, wtFracArrayFe
 attenCoeffLimestone = attenCoeffOverall(attenArrayLimestone, wtFracArrayLimestone)
 attenCoeffStainlessSteel = attenCoeffOverall(attenArrayStainlessSteel, wtFracArrayStainlessSteel)
 
-for i in np.arange(0, 1.501, 0.001):
+for i in np.arange(0, 1.001, 0.001):
 	poly_array.append( gammaAttenPercent(attenCoeffPoly, polyDen, i, 0) )
 	lead_array.append( gammaAttenPercent(attenCoeffLead, leadDen, i, 0) )
 	ferric_oxide_array.append( gammaAttenPercent(attenCoeffFerricOxide, ferricOxideDen, i, 0) )
@@ -193,17 +193,17 @@ Plot the gamma production density as a function of time.
 plt.figure()
 
 # Plot the gamma flux density as a function of time on a log-log plot. The label will appear in the plot legend.
-plt.loglog(time_array, gamma_array, 'b-', label='Gamma flux density (1/s/cm^3)')
+plt.loglog(time_array, gamma_array, 'b-', label='Gamma current density (1/s/cm^3)')
 
 # Plot the 'null' gamma flux density as a function of time on the same log-log plot. The label will appear in the plot legend.
 plt.loglog(time_array, null_rad, 'r--', label='Lower bound activity')
 
 # Add the title of the plot in a reasonably sized font.
-plt.title('Gamma Production Current Density in Natural Boron Over Time', fontsize=40)
+plt.title('Gamma Current Density from B-10(n,a + g)L-7 Reaction')
 
 # Add the y-axis and x-axis labels in a reasonably sized font to the plot.
-plt.xlabel('Time(s)', fontsize=30)
-plt.ylabel('Gamma Production Current Density (1/s/cm^3)', fontsize=30)
+plt.xlabel('Time(s)')
+plt.ylabel('Gamma Current Density (1/s/cm^3)')
 
 # Add the legend to the plot with a convenient location specified so the both gamma flux density curves can be seen in their entirety.
 plt.legend(loc=(0.2,0.2))
