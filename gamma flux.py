@@ -16,7 +16,7 @@ Definitions            		 # Units, Brief Descriptor. All units are in the CGS (c
 
 # Info given by Dr. Lee Bernstein.
 I = 10e9                     # [# neutrons from source per second]=[no 'real' units], approx. top neutron current (HFNG)
-r = 0.005                    # [cm], assumed distance from target boron slab given general size of HFNG assembly
+r = 1                       # [cm], assumed distance from target boron slab given general size of HFNG assembly
 
 
 # Obtained using WolframAlpha.com
@@ -129,8 +129,8 @@ def attenCoeffOverall(attenArray, wtFracArray):
 	return massAttenCoeff
 
 # Set the values to end at and the incremental value for the gamma flux density, time, and lower bound arrays.
-final_val = int(3e8)
-increm_val = int(1e5)
+final_val = int(8e12)
+increm_val = int(1e8)
 
 # Initialize the array for gamma flux density for plotting purposes, as well as a time array.
 gamma_array = []
@@ -156,7 +156,7 @@ limestone_array = []
 stainless_steel_array = []
 
 # Create an array for the depth values in a slab of a particular material.
-x_array = np.arange(0, 1.001, 0.001)
+x_array = np.arange(0, 1.501, 0.001)
 
 # Calculate the mass attenuation coefficients for the relevant compounds.
 attenCoeffFerricOxide = attenCoeffOverall(attenArrayFerricOxide, wtFracArrayFerricOxide)
@@ -164,7 +164,7 @@ attenCoeffFerrousOxide = attenCoeffOverall(attenArrayFerrousOxide, wtFracArrayFe
 attenCoeffLimestone = attenCoeffOverall(attenArrayLimestone, wtFracArrayLimestone)
 attenCoeffStainlessSteel = attenCoeffOverall(attenArrayStainlessSteel, wtFracArrayStainlessSteel)
 
-for i in np.arange(0, 1.001, 0.001):
+for i in np.arange(0, 1.501, 0.001):
 	poly_array.append( gammaAttenPercent(attenCoeffPoly, polyDen, i, 0) )
 	lead_array.append( gammaAttenPercent(attenCoeffLead, leadDen, i, 0) )
 	ferric_oxide_array.append( gammaAttenPercent(attenCoeffFerricOxide, ferricOxideDen, i, 0) )
