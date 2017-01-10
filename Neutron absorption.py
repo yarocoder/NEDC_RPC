@@ -44,7 +44,7 @@ mass_frac_array_7 = [0.333, 0.167, 0.306, 0.194]
 '''
 Calculate the percentage of thermal neutrons attenuated in the composite material.
 '''
-def neutAttenPercent(x, boric_acid_frac, steel_frac, resin_frac, hardener_frac):
+def neut_atten_percent(x, boric_acid_frac, steel_frac, resin_frac, hardener_frac):
 
     # Calculate the density of the composite material.
     rho = 1 / ( boric_acid_frac/boric_acid_density + steel_frac/steel_density + resin_frac/resin_density + hardener_frac/hardener_density )
@@ -58,8 +58,8 @@ def neutAttenPercent(x, boric_acid_frac, steel_frac, resin_frac, hardener_frac):
     return 100 * exp(-N * sigma * x)
 
 # Set the final and incremental values for the composite thickness and neutron percentage arrays.
-final_val = 1.6     # [cm]
-increm_val = 0.001  # [cm]
+final_val = 1.4    # [cm]
+increm_val = 0.05  # [cm]
 
 # Initialize the thickness and neutron percentage arrays.
 thickness_array = np.arange(0, final_val, increm_val)
@@ -74,37 +74,37 @@ comp_array_7 = []
 # Create arrays for the various composite compositions for plotting purposes.
 for i in np.arange(0, final_val, increm_val):
 
-    comp_array_1.append( neutAttenPercent(i, mass_frac_array_1[0],
+    comp_array_1.append( neut_atten_percent(i, mass_frac_array_1[0],
                                              mass_frac_array_1[1],
                                              mass_frac_array_1[2],
                                              mass_frac_array_1[3]) )
     
-    comp_array_2.append( neutAttenPercent(i, mass_frac_array_2[0],
+    comp_array_2.append( neut_atten_percent(i, mass_frac_array_2[0],
                                              mass_frac_array_2[1],
                                              mass_frac_array_2[2],
                                              mass_frac_array_2[3]) )
 
-    comp_array_3.append( neutAttenPercent(i, mass_frac_array_3[0],
+    comp_array_3.append( neut_atten_percent(i, mass_frac_array_3[0],
                                              mass_frac_array_3[1],
                                              mass_frac_array_3[2],
                                              mass_frac_array_3[3]) )
 
-    comp_array_4.append( neutAttenPercent(i, mass_frac_array_4[0],
+    comp_array_4.append( neut_atten_percent(i, mass_frac_array_4[0],
                                              mass_frac_array_4[1],
                                              mass_frac_array_4[2],
                                              mass_frac_array_4[3]) )
 
-    comp_array_5.append( neutAttenPercent(i, mass_frac_array_5[0],
+    comp_array_5.append( neut_atten_percent(i, mass_frac_array_5[0],
                                              mass_frac_array_5[1],
                                              mass_frac_array_5[2],
                                              mass_frac_array_5[3]) )
 
-    comp_array_6.append( neutAttenPercent(i, mass_frac_array_6[0],
+    comp_array_6.append( neut_atten_percent(i, mass_frac_array_6[0],
                                              mass_frac_array_6[1],
                                              mass_frac_array_6[2],
                                              mass_frac_array_6[3]) )
 
-    comp_array_7.append( neutAttenPercent(i, mass_frac_array_7[0],
+    comp_array_7.append( neut_atten_percent(i, mass_frac_array_7[0],
                                              mass_frac_array_7[1],
                                              mass_frac_array_7[2],
                                              mass_frac_array_7[3]) )
@@ -112,18 +112,15 @@ for i in np.arange(0, final_val, increm_val):
 Plot the percentages of neutron current remaining at a particular thickness
 in the absorber for the four compositions of interest.
 '''
-
-# 'm:' 'y' 
-
 plt.figure()
 
-plt.plot(thickness_array, comp_array_1, 'g-', label = "50.0% boric acid, 0% steel, 30.6% resin, and 19.4% hardener by weight")
-plt.plot(thickness_array, comp_array_2, 'r--', label = "33.3% boric acid, 33.3% steel, 20.6% resin, and 12.8% hardener by weight")
-plt.plot(thickness_array, comp_array_3, 'c-.', label = "25.0% boric acid, 0% steel, 45.8% resin, and 29.2% hardener by weight")
-plt.plot(thickness_array, comp_array_4, 'b', label = "17.0% boric acid, 33.0% steel, 30.6% resin, and 19.4% hardener by weight")
-plt.plot(thickness_array, comp_array_5, 'm:', label = "20.0% boric acid, 0% steel, 48.9% resin, 31.1% hardener by weight")
-plt.plot(thickness_array, comp_array_6, 'y', label = "20.0% boric acid, 30.0% steel, 30.6% resin, 19.4% hardener by weight")
-plt.plot(thickness_array, comp_array_7, 'k', label = "33.3% boric acid, 16.7% steel, 30.6% resin, 19.4% hardener by weight")
+plt.plot(thickness_array, comp_array_5, 'm.', label = "20.0% boric acid, 0% steel, 48.9% resin, 31.1% hardener by mass")
+plt.plot(thickness_array, comp_array_4, 'bx', label = "17.0% boric acid, 33.0% steel, 30.6% resin, and 19.4% hardener by mass")
+plt.plot(thickness_array, comp_array_3, 'c^', label = "25.0% boric acid, 0% steel, 45.8% resin, and 29.2% hardener by mass")
+plt.plot(thickness_array, comp_array_6, 'y', label = "20.0% boric acid, 30.0% steel, 30.6% resin, 19.4% hardener by mass")
+plt.plot(thickness_array, comp_array_7, 'k*', label = "33.3% boric acid, 16.7% steel, 30.6% resin, 19.4% hardener by mass")
+plt.plot(thickness_array, comp_array_2, 'r--', label = "33.3% boric acid, 33.3% steel, 20.6% resin, and 12.8% hardener by mass")
+plt.plot(thickness_array, comp_array_1, 'g+', label = "50.0% boric acid, 0% steel, 30.6% resin, and 19.4% hardener by mass")
 
 plt.title('Thermal Neutron Current Attenuation')
 
