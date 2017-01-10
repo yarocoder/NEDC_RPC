@@ -141,6 +141,7 @@ null_rad = []
 
 # Fill the gamma fluence density value and lower bound array.
 for i in np.arange(1, final_val, increm_val):
+    
     # Append each new gamma fluence density value to the end of the array, gradually building it.
     gamma_array.append(gamma(i))
 
@@ -157,7 +158,7 @@ limestone_array = []
 stainless_steel_array = []
 
 # Create an array for the depth values in a slab of a particular material.
-x_array = np.arange(0, 1.001, 0.001)
+x_array = np.arange(0, 1.22, 0.06)
 
 # Calculate the mass attenuation coefficients for the relevant compounds.
 attenCoeffFerricOxide = attenCoeffOverall(attenArrayFerricOxide, wtFracArrayFerricOxide)
@@ -166,7 +167,7 @@ attenCoeffLimestone = attenCoeffOverall(attenArrayLimestone, wtFracArrayLimeston
 attenCoeffStainlessSteel = attenCoeffOverall(attenArrayStainlessSteel, wtFracArrayStainlessSteel)
 
 # Create arrays for the various materials for plotting purposes.
-for i in np.arange(0, 1.001, 0.001):
+for i in np.arange(0, 1.22, 0.06):
 	poly_array.append( gammaAttenPercent(attenCoeffPoly, polyDen, i, 0) )
 	lead_array.append( gammaAttenPercent(attenCoeffLead, leadDen, i, 0) )
 	ferric_oxide_array.append( gammaAttenPercent(attenCoeffFerricOxide, ferricOxideDen, i, 0) )
@@ -219,12 +220,12 @@ Plot the gamma fluence attenuation percentage for different materials at the sta
 
 plt.figure()
 
-plt.plot(x_array, poly_array, 'g-', label = 'Polyethylene')
 plt.plot(x_array, lead_array, 'r--', label = 'Lead')
-plt.plot(x_array, ferric_oxide_array, 'c-.', label = 'Ferric oxide')
-plt.plot(x_array, ferrous_oxide_array, 'm:', label = 'Ferrous oxide')
-plt.plot(x_array, limestone_array, 'y', label = 'Limestone')
 plt.plot(x_array, stainless_steel_array, 'b', label = 'Stainless steel')
+plt.plot(x_array, ferrous_oxide_array, 'm:', label = 'Ferrous oxide')
+plt.plot(x_array, ferric_oxide_array, 'c+', label = 'Ferric oxide')
+plt.plot(x_array, limestone_array, 'k.', label = 'Limestone')
+plt.plot(x_array, poly_array, 'gx', label = 'Polyethylene')
 
 plt.title('478 keV Gamma Fluence Attenuation')
 
