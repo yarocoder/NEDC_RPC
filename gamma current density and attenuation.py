@@ -165,6 +165,7 @@ attenCoeffFerrousOxide = attenCoeffOverall(attenArrayFerrousOxide, wtFracArrayFe
 attenCoeffLimestone = attenCoeffOverall(attenArrayLimestone, wtFracArrayLimestone)
 attenCoeffStainlessSteel = attenCoeffOverall(attenArrayStainlessSteel, wtFracArrayStainlessSteel)
 
+# Create arrays for the various materials for plotting purposes.
 for i in np.arange(0, 1.001, 0.001):
 	poly_array.append( gammaAttenPercent(attenCoeffPoly, polyDen, i, 0) )
 	lead_array.append( gammaAttenPercent(attenCoeffLead, leadDen, i, 0) )
