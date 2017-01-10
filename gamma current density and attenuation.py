@@ -138,6 +138,7 @@ time_array = np.arange(1, final_val, increm_val)
 
 # Create an array with a constant gamma count of 10 gammas/s/cm^3 for the lower bound of activity/cm^3.
 null_rad = []
+
 # Fill the gamma fluence density value and lower bound array.
 for i in np.arange(1, final_val, increm_val):
     # Append each new gamma fluence density value to the end of the array, gradually building it.
