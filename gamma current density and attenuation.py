@@ -15,8 +15,8 @@ Definitions            		 # Units, Brief Descriptor. All units are in the CGS (c
 '''
 
 # Info given by Dr. Lee Bernstein.
-I = 10e9                    # [# neutrons from source per second]=[no 'real' units], approx. top neutron current (HFNG)
-r = 1                       # [cm], assumed distance from target boron slab given general size of HFNG assembly
+I = 10e9                     # [# neutrons from source per second]=[no 'real' units], approx. top neutron current (HFNG)
+r = 1                        # [cm], assumed distance from target boron slab given general size of HFNG assembly
 
 
 # Obtained using WolframAlpha.com
@@ -29,13 +29,13 @@ M = 10.012936992             # [mass B-10/mol B-10]=[g/mol]=[u], molar mass of B
 sigma = 3.60069e-21          # [cm^2], cross-section for B-10(n,a)Li-7 reaction at the thermal energy peak at approximately 0.0253 eV.
 
 # Obtained using WolframAlpha.com
-ironDen = 7.874				 # [g/cm^3], density of natural iron
-polyDen = 0.95				 # [g/cm^3], density of polyethylene
-leadDen = 11.34				 # [g/cm^3], density of lead
-ferricOxideDen = 5.26		 # [g/cm^3], density of iron (III) oxide (ferric oxide)
-ferrousOxideDen = 5.7		 # [g/cm^3], density of iron (II) oxide (ferrous oxide)
-limestoneDen = 2.93			 # [g/cm^3], density of limestone (calcium carbonate)
-stainlessSteelDen = 7.9		 # [g/cm^3], density of stainless steel (assume mean value)
+ironDen = 7.874		     # [g/cm^3], density of natural iron
+polyDen = 0.95		     # [g/cm^3], density of polyethylene
+leadDen = 11.34		     # [g/cm^3], density of lead
+ferricOxideDen = 5.26	     # [g/cm^3], density of iron (III) oxide (ferric oxide)
+ferrousOxideDen = 5.7	     # [g/cm^3], density of iron (II) oxide (ferrous oxide)
+limestoneDen = 2.93	     # [g/cm^3], density of limestone (calcium carbonate)
+stainlessSteelDen = 7.9      # [g/cm^3], density of stainless steel (assume mean value)
 
 # Derived from molar and atomic masses by taking the atomic masses of each individual element, multiplying by the number of atoms of that
 # element in a molecule of that compound, and dividing by the molar mass of the compound available on WolframAlpha.com
@@ -48,9 +48,9 @@ wtFracArrayLimestone = [0.4004196, 0.119999, 0.4795504]
 wtFracArrayStainlessSteel = [0.895, 0.105]
 
 # Obtained using the NIST X-Ray Mass Attenuation Coefficients database: https://www.nist.gov/pml/x-ray-mass-attenuation-coefficients
-attenCoeffPoly = 9.947e-02		 # [cm^2/g], mass attenuation coefficient for polyethylene
-attenCoeffLead = 1.614e-01		 # [cm^s/g], mass attenuation coefficient for natural lead
-attenCoeffIron = 8.414e-02		 # [cm^2/g], mass attenuation coefficient for natural iron
+attenCoeffPoly = 9.947e-02	 # [cm^2/g], mass attenuation coefficient for polyethylene
+attenCoeffLead = 1.614e-01	 # [cm^s/g], mass attenuation coefficient for natural lead
+attenCoeffIron = 8.414e-02	 # [cm^2/g], mass attenuation coefficient for natural iron
 attenCoeffOxygen = 8.729e-02	 # [cm^s/g], mass attenuation coefficient for natural oxygen
 attenCoeffCalcium = 8.851e-02	 # [cm^s/g], mass attenuation coefficient for natural calcium
 attenCoeffCarbon = 8.715e-02	 # [cm^s/g], mass attenuation coefficient for natural carbon
@@ -158,7 +158,7 @@ limestone_array = []
 stainless_steel_array = []
 
 # Create an array for the depth values in a slab of a particular material.
-x_array = np.arange(0, 1.22, 0.06)
+x_array = np.arange(0, 1.42, 0.06)
 
 # Calculate the mass attenuation coefficients for the relevant compounds.
 attenCoeffFerricOxide = attenCoeffOverall(attenArrayFerricOxide, wtFracArrayFerricOxide)
@@ -167,7 +167,7 @@ attenCoeffLimestone = attenCoeffOverall(attenArrayLimestone, wtFracArrayLimeston
 attenCoeffStainlessSteel = attenCoeffOverall(attenArrayStainlessSteel, wtFracArrayStainlessSteel)
 
 # Create arrays for the various materials for plotting purposes.
-for i in np.arange(0, 1.22, 0.06):
+for i in np.arange(0, 1.42, 0.06):
 	poly_array.append( gammaAttenPercent(attenCoeffPoly, polyDen, i, 0) )
 	lead_array.append( gammaAttenPercent(attenCoeffLead, leadDen, i, 0) )
 	ferric_oxide_array.append( gammaAttenPercent(attenCoeffFerricOxide, ferricOxideDen, i, 0) )
@@ -229,7 +229,7 @@ plt.plot(x_array, poly_array, 'gx', label = 'Polyethylene')
 
 plt.title('478 keV Gamma Fluence Attenuation')
 
-plt.xlabel('Depth in material [cm]')
+plt.xlabel('Thickness of material [cm]')
 plt.ylabel('Gamma fluence attenuation [%]')
 
 plt.legend(loc = (0,0.6))
