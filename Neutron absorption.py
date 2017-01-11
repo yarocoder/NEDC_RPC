@@ -25,8 +25,8 @@ boric_acid_molar_mass = 61.833      # [mass boric acid/mol boric acid]=[g/mol]=[
 
 boric_acid_density = 1.435          # [mass boric acid/volume boric acid]=[g/cm^3], density of boric acid
 steel_density = 7.9                 # [mass steel/volume steel]=[g/cm^3], density of steel
-resin_density = 1.1628        # [mass epoxy resin/volume epoxy resin]=[g/cm^3], density of epoxy resin
-hardener_density = 0.922      # [mass epoxy hardener/volume epoxy hardener]=[g/cm^3], density of epoxy hardener
+resin_density = 1.1628              # [mass epoxy resin/volume epoxy resin]=[g/cm^3], density of epoxy resin
+hardener_density = 0.922            # [mass epoxy hardener/volume epoxy hardener]=[g/cm^3], density of epoxy hardener
 
 # Obtained using ENDF website: http://www.nndc.bnl.gov/exfor/endf00.jsp
 sigma = 3.8468e-21                  # [cm^2], cross-section for B-10 nonelastic neutron absorption reaction at the thermal energy peak at approximately 0.0253 eV.
@@ -54,8 +54,8 @@ def neut_atten_percent(x, boric_acid_frac, steel_frac, resin_frac, hardener_frac
 
     # Calculate the percentage of neutrons attenuated assuming a narrow beam.
     # Also assume only the B-10 nonelastic neutron absoption is a significant
-    # contributer to reduction of the neutron flux.
-    return 100 * exp(-N * sigma * x)
+    # contributer to reduction of the neutron fluence.
+    return 100 * (1 - exp(-N * sigma * x))
 
 # Set the final and incremental values for the composite thickness and neutron percentage arrays.
 final_val = 1.4    # [cm]
@@ -114,19 +114,19 @@ in the absorber for the four compositions of interest.
 '''
 plt.figure()
 
-plt.plot(thickness_array, comp_array_5, 'm.', label = "20.0% boric acid, 0% steel, 48.9% resin, 31.1% hardener by mass")
-plt.plot(thickness_array, comp_array_4, 'bx', label = "17.0% boric acid, 33.0% steel, 30.6% resin, and 19.4% hardener by mass")
-plt.plot(thickness_array, comp_array_3, 'c^', label = "25.0% boric acid, 0% steel, 45.8% resin, and 29.2% hardener by mass")
-plt.plot(thickness_array, comp_array_6, 'y', label = "20.0% boric acid, 30.0% steel, 30.6% resin, 19.4% hardener by mass")
-plt.plot(thickness_array, comp_array_7, 'k*', label = "33.3% boric acid, 16.7% steel, 30.6% resin, 19.4% hardener by mass")
-plt.plot(thickness_array, comp_array_2, 'r--', label = "33.3% boric acid, 33.3% steel, 20.6% resin, and 12.8% hardener by mass")
 plt.plot(thickness_array, comp_array_1, 'g+', label = "50.0% boric acid, 0% steel, 30.6% resin, and 19.4% hardener by mass")
+plt.plot(thickness_array, comp_array_2, 'r--', label = "33.3% boric acid, 33.3% steel, 20.6% resin, and 12.8% hardener by mass")
+plt.plot(thickness_array, comp_array_7, 'k*', label = "33.3% boric acid, 16.7% steel, 30.6% resin, 19.4% hardener by mass")
+plt.plot(thickness_array, comp_array_6, 'y', label = "20.0% boric acid, 30.0% steel, 30.6% resin, 19.4% hardener by mass")
+plt.plot(thickness_array, comp_array_3, 'c^', label = "25.0% boric acid, 0% steel, 45.8% resin, and 29.2% hardener by mass")
+plt.plot(thickness_array, comp_array_4, 'bx', label = "17.0% boric acid, 33.0% steel, 30.6% resin, and 19.4% hardener by mass")
+plt.plot(thickness_array, comp_array_5, 'm.', label = "20.0% boric acid, 0% steel, 48.9% resin, 31.1% hardener by mass")
 
-plt.title('Thermal Neutron Current Attenuation')
+plt.title('Thermal Neutron Fluence Attenuation')
 
 plt.xlabel('Thickness of material [cm]')
-plt.ylabel('Neutron current attenuation [%]')
+plt.ylabel('Neutron fluence attenuated [%]')
 
-plt.legend()
+plt.legend(loc = (0.2,0.05))
 
 plt.show()
