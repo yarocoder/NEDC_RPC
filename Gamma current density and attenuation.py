@@ -15,26 +15,26 @@ Definitions            		 # Units, Brief Descriptor. All units are in the CGS (c
 '''
 
 # Info given by Dr. Lee Bernstein.
-I = 10e9                     # [# neutrons from source per second]=[no 'real' units], approx. top neutron current (HFNG)
-r = 1                        # [cm], assumed distance from target boron slab given general size of HFNG assembly
+I = 10e9                         # [# neutrons from source per second]=[no 'real' units], approx. top neutron current (HFNG)
+r = 1                            # [cm], assumed distance from target boron slab given general size of HFNG assembly
 
 
 # Obtained using WolframAlpha.com
-Na = 6.022141e23             # [# of B-10 nuclei/mol B-10]=[1/mol], Avogadro's number
-rho = 2.46                   # [mass natural boron/volume it occupies]=[g/cm^3], density of natural boron
-x = 0.198                    # [mass B-10/mass natural boron]=[no 'real' units], mass fraction of B-10 in natural boron
-M = 10.012936992             # [mass B-10/mol B-10]=[g/mol]=[u], molar mass of B-10
+Na = 6.022141e23                 # [# of B-10 nuclei/mol B-10]=[1/mol], Avogadro's number
+rho = 2.46                       # [mass natural boron/volume it occupies]=[g/cm^3], density of natural boron
+x = 0.198                        # [mass B-10/mass natural boron]=[no 'real' units], mass fraction of B-10 in natural boron
+M = 10.012936992                 # [mass B-10/mol B-10]=[g/mol]=[u], molar mass of B-10
 
 # Obtained using ENDF website: http://www.nndc.bnl.gov/exfor/endf00.jsp
-sigma = 3.60069e-21          # [cm^2], cross-section for B-10(n,a)Li-7 reaction at the thermal energy peak at approximately 0.0253 eV.
+sigma = 3.60069e-21              # [cm^2], cross-section for B-10(n,a)Li-7 reaction at the thermal energy peak at approximately 0.0253 eV.
 
 # Obtained using WolframAlpha.com
-ironDen = 7.874				 # [g/cm^3], density of natural iron
-polyDen = 0.95				 # [g/cm^3], density of polyethylene
-leadDen = 11.34				 # [g/cm^3], density of lead
+ironDen = 7.874			 # [g/cm^3], density of natural iron
+polyDen = 0.95			 # [g/cm^3], density of polyethylene
+leadDen = 11.34			 # [g/cm^3], density of lead
 ferricOxideDen = 5.26		 # [g/cm^3], density of iron (III) oxide (ferric oxide)
 ferrousOxideDen = 5.7		 # [g/cm^3], density of iron (II) oxide (ferrous oxide)
-limestoneDen = 2.93			 # [g/cm^3], density of limestone (calcium carbonate)
+limestoneDen = 2.93		 # [g/cm^3], density of limestone (calcium carbonate)
 stainlessSteelDen = 7.9		 # [g/cm^3], density of stainless steel (assume mean value)
 
 # Derived from molar and atomic masses by taking the atomic masses of each individual element, multiplying by the number of atoms of that
@@ -48,9 +48,9 @@ wtFracArrayLimestone = [0.4004196, 0.119999, 0.4795504]
 wtFracArrayStainlessSteel = [0.895, 0.105]
 
 # Obtained using the NIST X-Ray Mass Attenuation Coefficients database: https://www.nist.gov/pml/x-ray-mass-attenuation-coefficients
-attenCoeffPoly = 9.947e-02		 # [cm^2/g], mass attenuation coefficient for polyethylene
-attenCoeffLead = 1.614e-01		 # [cm^s/g], mass attenuation coefficient for natural lead
-attenCoeffIron = 8.414e-02		 # [cm^2/g], mass attenuation coefficient for natural iron
+attenCoeffPoly = 9.947e-02	 # [cm^2/g], mass attenuation coefficient for polyethylene
+attenCoeffLead = 1.614e-01	 # [cm^s/g], mass attenuation coefficient for natural lead
+attenCoeffIron = 8.414e-02	 # [cm^2/g], mass attenuation coefficient for natural iron
 attenCoeffOxygen = 8.729e-02	 # [cm^s/g], mass attenuation coefficient for natural oxygen
 attenCoeffCalcium = 8.851e-02	 # [cm^s/g], mass attenuation coefficient for natural calcium
 attenCoeffCarbon = 8.715e-02	 # [cm^s/g], mass attenuation coefficient for natural carbon
