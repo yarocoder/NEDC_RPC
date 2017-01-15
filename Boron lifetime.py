@@ -81,8 +81,8 @@ while i <= 10**14:
 
 plt.semilogx(time, B_10_lst)
 plt.ylim([0,100])
-plt.xlabel('Time elapsed (s)')
-plt.ylabel('Percentage of Boron Isotopes Left (%)')
-plt.title('Boron Lifetime Calculation')
+plt.xlabel('Time elapsed (s)', fontsize=18)
+plt.ylabel('Percentage of B-10 Isotope Left (%)', fontsize=18)
+plt.title('Boron Lifetime Calculation', fontsize=18)
 
 plt.show()
