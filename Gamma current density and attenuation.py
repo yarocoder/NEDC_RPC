@@ -29,13 +29,13 @@ M = 10.012936992             # [mass B-10/mol B-10]=[g/mol]=[u], molar mass of B
 sigma = 3.60069e-21          # [cm^2], cross-section for B-10(n,a)Li-7 reaction at the thermal energy peak at approximately 0.0253 eV.
 
 # Obtained using WolframAlpha.com
-ironDen = 7.874		     # [g/cm^3], density of natural iron
-polyDen = 0.95		     # [g/cm^3], density of polyethylene
-leadDen = 11.34		     # [g/cm^3], density of lead
-ferricOxideDen = 5.26	     # [g/cm^3], density of iron (III) oxide (ferric oxide)
-ferrousOxideDen = 5.7	     # [g/cm^3], density of iron (II) oxide (ferrous oxide)
-limestoneDen = 2.93	     # [g/cm^3], density of limestone (calcium carbonate)
-stainlessSteelDen = 7.9      # [g/cm^3], density of stainless steel (assume mean value)
+ironDen = 7.874				 # [g/cm^3], density of natural iron
+polyDen = 0.95				 # [g/cm^3], density of polyethylene
+leadDen = 11.34				 # [g/cm^3], density of lead
+ferricOxideDen = 5.26		 # [g/cm^3], density of iron (III) oxide (ferric oxide)
+ferrousOxideDen = 5.7		 # [g/cm^3], density of iron (II) oxide (ferrous oxide)
+limestoneDen = 2.93			 # [g/cm^3], density of limestone (calcium carbonate)
+stainlessSteelDen = 7.9		 # [g/cm^3], density of stainless steel (assume mean value)
 
 # Derived from molar and atomic masses by taking the atomic masses of each individual element, multiplying by the number of atoms of that
 # element in a molecule of that compound, and dividing by the molar mass of the compound available on WolframAlpha.com
@@ -48,9 +48,9 @@ wtFracArrayLimestone = [0.4004196, 0.119999, 0.4795504]
 wtFracArrayStainlessSteel = [0.895, 0.105]
 
 # Obtained using the NIST X-Ray Mass Attenuation Coefficients database: https://www.nist.gov/pml/x-ray-mass-attenuation-coefficients
-attenCoeffPoly = 9.947e-02	 # [cm^2/g], mass attenuation coefficient for polyethylene
-attenCoeffLead = 1.614e-01	 # [cm^s/g], mass attenuation coefficient for natural lead
-attenCoeffIron = 8.414e-02	 # [cm^2/g], mass attenuation coefficient for natural iron
+attenCoeffPoly = 9.947e-02		 # [cm^2/g], mass attenuation coefficient for polyethylene
+attenCoeffLead = 1.614e-01		 # [cm^s/g], mass attenuation coefficient for natural lead
+attenCoeffIron = 8.414e-02		 # [cm^2/g], mass attenuation coefficient for natural iron
 attenCoeffOxygen = 8.729e-02	 # [cm^s/g], mass attenuation coefficient for natural oxygen
 attenCoeffCalcium = 8.851e-02	 # [cm^s/g], mass attenuation coefficient for natural calcium
 attenCoeffCarbon = 8.715e-02	 # [cm^s/g], mass attenuation coefficient for natural carbon
@@ -227,11 +227,11 @@ plt.plot(x_array, ferric_oxide_array, 'c+', label = 'Ferric oxide')
 plt.plot(x_array, limestone_array, 'k.', label = 'Limestone')
 plt.plot(x_array, poly_array, 'gx', label = 'Polyethylene')
 
-plt.title('478 keV Gamma Fluence Attenuation')
+plt.title('478 keV Gamma Fluence Attenuation', fontsize=24)
 
-plt.xlabel('Thickness of material [cm]')
-plt.ylabel('Gamma fluence attenuation [%]')
+plt.xlabel('Thickness of material [cm]', fontsize=24)
+plt.ylabel('Gamma fluence attenuation [%]', fontsize=24)
 
-plt.legend(loc = (0,0.6))
+plt.legend(loc = (0,0.65), fontsize=18)
 
 plt.show()
