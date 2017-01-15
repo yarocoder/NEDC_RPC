@@ -114,19 +114,19 @@ in the absorber for the four compositions of interest.
 '''
 plt.figure()
 
-plt.plot(thickness_array, comp_array_1, 'g+', label = "50.0% boric acid, 0% steel, 30.6% resin, and 19.4% hardener by mass")
-plt.plot(thickness_array, comp_array_2, 'r--', label = "33.3% boric acid, 33.3% steel, 20.6% resin, and 12.8% hardener by mass")
-plt.plot(thickness_array, comp_array_7, 'k*', label = "33.3% boric acid, 16.7% steel, 30.6% resin, 19.4% hardener by mass")
-plt.plot(thickness_array, comp_array_6, 'y', label = "20.0% boric acid, 30.0% steel, 30.6% resin, 19.4% hardener by mass")
-plt.plot(thickness_array, comp_array_3, 'c^', label = "25.0% boric acid, 0% steel, 45.8% resin, and 29.2% hardener by mass")
-plt.plot(thickness_array, comp_array_4, 'bx', label = "17.0% boric acid, 33.0% steel, 30.6% resin, and 19.4% hardener by mass")
-plt.plot(thickness_array, comp_array_5, 'm.', label = "20.0% boric acid, 0% steel, 48.9% resin, 31.1% hardener by mass")
+plt.plot(thickness_array, comp_array_1, 'g+', label = "50.0% B, 0% S, 30.6% R, and 19.4% H")
+plt.plot(thickness_array, comp_array_2, 'r--', label = "33.3% B, 33.3% S, 20.6% R, and 12.8% H")
+plt.plot(thickness_array, comp_array_7, 'k*', label = "33.3% B, 16.7% S, 30.6% R, 19.4% H")
+plt.plot(thickness_array, comp_array_6, 'y', label = "20.0% B, 30.0% S, 30.6% R, 19.4% H")
+plt.plot(thickness_array, comp_array_3, 'c^', label = "25.0% B, 0% S, 45.8% R, and 29.2% H")
+plt.plot(thickness_array, comp_array_4, 'bx', label = "17.0% B, 33.0% S, 30.6% R, and 19.4% H")
+plt.plot(thickness_array, comp_array_5, 'm.', label = "20.0% B, 0% S, 48.9% R, 31.1% H")
 
-plt.title('Thermal Neutron Fluence Attenuation')
+plt.title('Thermal Neutron Fluence Attenuation', fontsize=24)
 
-plt.xlabel('Thickness of material [cm]')
-plt.ylabel('Neutron fluence attenuated [%]')
+plt.xlabel('Thickness of material [cm]', fontsize=24)
+plt.ylabel('Neutron fluence attenuated [%]', fontsize=24)
 
-plt.legend(loc = (0.2,0.05))
+plt.legend(loc = (0.25,0), fontsize=18)
 
 plt.show()
