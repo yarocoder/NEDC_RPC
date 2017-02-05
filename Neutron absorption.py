@@ -44,7 +44,9 @@ mass_frac_array_7 = [0.333, 0.167, 0.306, 0.194]
 '''
 Calculate the percentage of thermal neutrons attenuated in the composite material.
 '''
+
 def neut_atten_percent(x, boric_acid_frac, steel_frac, resin_frac, hardener_frac):
+
 
     # Calculate the density of the composite material.
     rho = 1 / ( boric_acid_frac/boric_acid_density + steel_frac/steel_density + resin_frac/resin_density + hardener_frac/hardener_density )
@@ -74,35 +76,42 @@ comp_array_7 = []
 # Create arrays for the various composite compositions for plotting purposes.
 for i in np.arange(0, final_val, increm_val):
 
+
     comp_array_1.append( neut_atten_percent(i, mass_frac_array_1[0],
                                              mass_frac_array_1[1],
                                              mass_frac_array_1[2],
                                              mass_frac_array_1[3]) )
     
+
     comp_array_2.append( neut_atten_percent(i, mass_frac_array_2[0],
                                              mass_frac_array_2[1],
                                              mass_frac_array_2[2],
                                              mass_frac_array_2[3]) )
+
 
     comp_array_3.append( neut_atten_percent(i, mass_frac_array_3[0],
                                              mass_frac_array_3[1],
                                              mass_frac_array_3[2],
                                              mass_frac_array_3[3]) )
 
+
     comp_array_4.append( neut_atten_percent(i, mass_frac_array_4[0],
                                              mass_frac_array_4[1],
                                              mass_frac_array_4[2],
                                              mass_frac_array_4[3]) )
+
 
     comp_array_5.append( neut_atten_percent(i, mass_frac_array_5[0],
                                              mass_frac_array_5[1],
                                              mass_frac_array_5[2],
                                              mass_frac_array_5[3]) )
 
+
     comp_array_6.append( neut_atten_percent(i, mass_frac_array_6[0],
                                              mass_frac_array_6[1],
                                              mass_frac_array_6[2],
                                              mass_frac_array_6[3]) )
+
 
     comp_array_7.append( neut_atten_percent(i, mass_frac_array_7[0],
                                              mass_frac_array_7[1],
